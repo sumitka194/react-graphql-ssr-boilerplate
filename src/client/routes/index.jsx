@@ -10,4 +10,8 @@ const Routes = () => (
   </Router>
 );
 
+export const allRoutes = [
+  '/',
+];
+
 export default Routes;

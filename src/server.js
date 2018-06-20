@@ -1,9 +1,13 @@
 import express from 'express';
+import path from 'path';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import graphqlHTTP from 'express-graphql';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
+import { matchPath } from 'react-router-dom';
+import { allRoutes } from './client/routes';
+import page from './server';
 import webpackDevConfig from '../webpack.dev.babel';
 import schema from './server/graphql';
 
@@ -26,6 +30,18 @@ app.use(bodyParser.urlencoded({
   extended: true,
 }));
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
+app.use('*', (req, res) => {
+  const match = allRoutes.reduce((acc, route) =>
+    matchPath(req.url, { path: route, exact: true }) || acc, null);
+
+  if (!match) {
+    return res.status(404).send('Page not found');
+  }
+
+  return res.status(200).send(page);
+});
 
 app.use('/api', graphqlHTTP(req => ({
   context: {
