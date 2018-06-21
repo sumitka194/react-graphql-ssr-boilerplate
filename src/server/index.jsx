@@ -1,5 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom';
 import Routes from '../client/routes';
 
 // Renders Static HTML
@@ -14,9 +15,10 @@ const renderInitialPage = html => `
   </head>
   <body>
     <div id="root">${html}</div>
-    <script src="../dist/app.bundle.js"></script>
+    <script src="./app.bundle.js"></script>
   </body>
 </html>
 `;
 
-export default renderInitialPage(renderToString(<Routes />));
+export default (context, url) =>
+  renderInitialPage(renderToString(<StaticRouter context={context} location={url}><Routes /></StaticRouter>)); // eslint-disable-line max-len

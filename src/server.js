@@ -7,7 +7,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import { matchPath } from 'react-router-dom';
 import { allRoutes } from './client/routes';
-import page from './server';
+import page from './server/index';
 import webpackDevConfig from '../webpack.dev.babel';
 import schema from './server/graphql';
 
@@ -25,7 +25,7 @@ if (isDev) {
   }));
 }
 
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
@@ -39,8 +39,8 @@ app.use('*', (req, res) => {
   if (!match) {
     return res.status(404).send('Page not found');
   }
-
-  return res.status(200).send(page);
+  const context = {};
+  return res.status(200).send(page(context, req.url));
 });
 
 app.use('/api', graphqlHTTP(req => ({
@@ -52,5 +52,5 @@ app.use('/api', graphqlHTTP(req => ({
 })));
 
 app.listen(4000, () => {
-  console.log('Server is listening at port 4000');
+  console.log('Server is listening at port 4000'); // eslint-disable-line no-console
 });

@@ -5,10 +5,11 @@
   "main": "src/server.js",
   "scripts": {
     "babel-node": "babel-node --presets=env",
-    "build:client": "webpack --config ./webpack.dev.babel.js/",
-    "start": "nodemon --exec npm run build:client && npm run babel-node -- ./src/server.js",
+    "build:client": "webpack --config webpack.dev.babel.js",
+    "start:ssr": "npm run build:client && nodemon --exec npm run babel-node -- ./src/server.js",
+    "start": "nodemon --exec npm run babel-node -- ./src/server.js",
     "dev-server": "webpack-dev-server --open --config webpack.dev.babel.js",
-    "server": "node ./src/server.js",
+    "server": "npm run babel-node -- ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
