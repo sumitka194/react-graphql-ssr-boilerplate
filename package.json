@@ -5,8 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "babel-node": "babel-node --presets=env",
-    "build:client": "webpack --config webpack.dev.babel.js",
-    "start:ssr": "npm run build:client && nodemon --exec npm run babel-node -- ./src/server.js",
+    "build:dev:client": "webpack --config webpack.dev.babel.js",
+    "build:prod:client": "wepack --config wepack.prod.babel.js",
     "start": "nodemon --exec npm run babel-node -- ./src/server.js",
     "dev-server": "webpack-dev-server --open --config webpack.dev.babel.js",
     "server": "npm run babel-node -- ./src/server.js",
